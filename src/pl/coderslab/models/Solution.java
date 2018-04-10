@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Solution {
 	
@@ -147,6 +150,59 @@ public class Solution {
 			loadedSolution.users_id = rs.getInt("users_id");
 			solutions.add(loadedSolution);
 		}
+		Solution[] sArray = new Solution[solutions.size()]; 
+		sArray = solutions.toArray(sArray);
+		return sArray;
+	}
+	
+	static public Solution[] loadAllByUserId(Connection conn, int id) throws SQLException {
+		ArrayList<Solution> solutions = new ArrayList<Solution>();
+		String sql = "SELECT * FROM solution where id=?"; 
+		PreparedStatement ps;
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, id);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Solution loadedSolution = new Solution();
+			loadedSolution.id = rs.getInt("id");
+			loadedSolution.created = rs.getString("created");
+			loadedSolution.updated = rs.getString("updated");
+			loadedSolution.title = rs.getString("title");
+			loadedSolution.description = rs.getString("description");
+			loadedSolution.exercise_id = rs.getInt("exercise_id");
+			loadedSolution.users_id = rs.getInt("users_id");
+			solutions.add(loadedSolution);
+		}
+		Solution[] sArray = new Solution[solutions.size()]; 
+		sArray = solutions.toArray(sArray);
+		return sArray;
+	}
+	
+	static public Solution[] loadAllExerciseId(Connection conn, int exercise_id) throws SQLException {
+		ArrayList<Solution> solutions = new ArrayList<Solution>();
+		String sql = "SELECT * FROM solution where exercise_id=?"; 
+		PreparedStatement ps;
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, exercise_id);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			Solution loadedSolution = new Solution();
+			loadedSolution.id = rs.getInt("id");
+			loadedSolution.created = rs.getString("created");
+			loadedSolution.updated = rs.getString("updated");
+			loadedSolution.title = rs.getString("title");
+			loadedSolution.description = rs.getString("description");
+			loadedSolution.exercise_id = rs.getInt("exercise_id");
+			loadedSolution.users_id = rs.getInt("users_id");
+			solutions.add(loadedSolution);
+		}
+		
+		Collections.sort(solutions, new Comparator<Solution>() {
+			public int compare(Solution s1, Solution s2) {
+				return s1.getCreated().compareTo(s2.getCreated());
+			}
+		});
+			
 		Solution[] sArray = new Solution[solutions.size()]; 
 		sArray = solutions.toArray(sArray);
 		return sArray;
