@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import src.org.mindrot.jbcrypt.BCrypt;
 
 public class User_Group {
 	
@@ -42,6 +41,19 @@ public class User_Group {
 			if (rs.next()) {
 				this.id = rs.getInt(1);
 			}
+		}
+	}
+	
+	public void modifyGroup (Connection conn) throws SQLException {
+		if (this.id == 0) {
+			saveToDB(conn);
+		} else {
+			String sql = "UPDATE user_group SET name=? where id = ?";
+			PreparedStatement ps;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, this.name);
+			ps.setInt(2, this.id);
+			ps.executeUpdate();
 		}
 	}
 	

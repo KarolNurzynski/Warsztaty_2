@@ -56,6 +56,20 @@ public class Exercise {
 		}
 	}
 	
+	public void modifyExercise (Connection conn) throws SQLException {
+		if (this.id == 0) {
+			saveToDB(conn);
+		} else {
+			String sql = "UPDATE exercise SET title=?, description=? where id = ?";
+			PreparedStatement ps;
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, this.title);
+			ps.setString(2, this.description);
+			ps.setInt(3, this.id);
+			ps.executeUpdate();
+		}
+	}
+	
 	public void delete(Connection conn) throws SQLException {
 		if (this.id != 0) {
 			String sql = "DELETE FROM exercise WHERE id= ?";

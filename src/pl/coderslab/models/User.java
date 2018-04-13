@@ -5,7 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import src.org.mindrot.jbcrypt.BCrypt;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class User {	
 	
